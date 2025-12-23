@@ -1,0 +1,12 @@
+fastapi[standard]
+uvicorn[standard]
+
+fastapi
+pydantic
+sqlalchemy
+
+passlib >= 1.7.4
+bcrypt < 5.0
+
+pytest
+pytest-asyncio
