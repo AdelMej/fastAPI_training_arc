@@ -6,4 +6,7 @@ from uuid import UUID
 class User:
     id: UUID | None
     email: str
+    username: str
+    first_name: str
+    last_name: str
     password_hash: str

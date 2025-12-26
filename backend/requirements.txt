@@ -5,8 +5,9 @@ fastapi
 pydantic
 sqlalchemy
 
-passlib >= 1.7.4
-bcrypt < 5.0
+argon2
+zxcvbn
+python-jose[cryptography]
 
 pytest
 pytest-asyncio

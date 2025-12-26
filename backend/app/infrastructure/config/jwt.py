@@ -1,0 +1,7 @@
+import os
+
+SECRET_KEY = os.environ["SECRET_KEY"]
+ALGORITHM = os.environ["JWT_ALGORITHM"]
+ACCESS_TOKEN_EXPIRE_MINUTES = int(
+    os.environ["JWT_ACCESS_TOKEN_EXPIRE_MINUTES"]
+)

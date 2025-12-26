@@ -1,15 +1,7 @@
-from passlib.context import CryptContext
+# shared/security/password_hasher.py
+from typing import Protocol
 
 
-class PasswordHasher:
-    def __init__(self) -> None:
-        self._ctx = CryptContext(
-            schemes=["bcrypt"],
-            deprecated="auto",
-        )
-
-    def hash(self, password: str) -> str:
-        return self._ctx.hash(password)
-
-    def verify(self, plain: str, hashed: str):
-        return self._ctx.verify(plain, hashed)
+class PasswordHasher(Protocol):
+    def hash(self, password: str) -> str: ...
+    def verify(self, plain: str, hashed: str) -> bool: ...
