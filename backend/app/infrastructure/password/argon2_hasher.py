@@ -1,7 +1,5 @@
-from functools import lru_cache
 from argon2 import PasswordHasher as Argon2Hasher
 from argon2.exceptions import VerifyMismatchError
-from app.shared.security.password_hasher import PasswordHasher
 
 
 class Argon2PasswordHasher:
@@ -25,6 +23,4 @@ class Argon2PasswordHasher:
             return False
 
 
-@lru_cache
-def get_password_hasher() -> PasswordHasher:
-    return Argon2PasswordHasher()
+

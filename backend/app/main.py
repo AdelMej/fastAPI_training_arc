@@ -1,29 +1,24 @@
 from fastapi import FastAPI
-from app.features.auth.router import router as auth_router
-from fastapi.exceptions import RequestValidationError
-from app.shared.exceptions.handler import (
-    validation_exception_handler,
-    user_domain_exception_handler
-)
-from app.domain.user.exceptions import UserDomainError
+
+# router
+from app.features.auth.auth_router import router as auth_router
+from app.features.user.user_router import router as user_router
+from app.features.book.book_router import router as book_router
+from app.features.admin.admin_router import router as admin_router
+
 from fastapi.middleware.cors import CORSMiddleware
 from app.infrastructure.config.cors import ORIGINS
+
+from app.shared.handlers import register_exception_handlers
 
 app = FastAPI()
 
 app.include_router(auth_router)
+app.include_router(user_router)
+app.include_router(book_router)
+app.include_router(admin_router)
 
-app.add_exception_handler(
-    RequestValidationError,
-    validation_exception_handler,
-)
-
-
-app.add_exception_handler(
-    UserDomainError,
-    user_domain_exception_handler,
-)
-
+register_exception_handlers(app)
 
 app.add_middleware(
     CORSMiddleware,

@@ -1,16 +1,21 @@
-from app.domain.user.user_entity import User
-from app.domain.user.exceptions import InvalidCredentialsError
+from app.domain.user.user_entity import UserEntity
+from app.domain.user.user_exceptions import (
+        InvalidIdentifierError,
+        InvalidPasswordError
+)
 from app.shared.security.password_hasher import PasswordHasher
 
 
 def ensure_user_can_authenticate(
-    user: User | None,
+    user: UserEntity | None,
     plain_password: str,
     password_hasher: PasswordHasher,
-) -> None:
+) -> UserEntity:
 
     if not user:
-        raise InvalidCredentialsError()
+        raise InvalidIdentifierError()
 
     if not password_hasher.verify(plain_password, user.password_hash):
-        raise InvalidCredentialsError()
+        raise InvalidPasswordError()
+
+    return user

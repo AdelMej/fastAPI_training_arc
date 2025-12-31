@@ -1,5 +1,23 @@
 from pydantic import BaseModel
-from typing import Dict, Optional
+from typing import Dict, Optional, Literal
+
+
+class ErrorResponse(BaseModel):
+    error: str
+    fields: Optional[Dict[str, str]] = None
+
+    model_config = {
+        "json_schema_extra": {
+            "examples": [
+                {
+                    "summary": "Login failure (no information leakage)",
+                    "value": {
+                        "error": "invalid_credentials"
+                    },
+                },
+            ]
+        }
+    }
 
 
 class ValidationErrorResponse(BaseModel):
@@ -19,19 +37,13 @@ class ValidationErrorResponse(BaseModel):
     }
 
 
-class ErrorResponse(BaseModel):
-    error: str
-    fields: Optional[Dict[str, str]] = None
+class UnauthorizedErrorResponse(BaseModel):
+    error: Literal["unauthorized"]
 
-    model_config = {
-        "json_schema_extra": {
-            "examples": [
-                {
-                    "summary": "Login failure (no information leakage)",
-                    "value": {
-                        "error": "invalid_credentials"
-                    },
-                },
-            ]
-        }
-    }
+
+class ForbiddenErrorResponse(BaseModel):
+    error: Literal["forbidden"]
+
+
+class NotFoundErrorResponse(BaseModel):
+    error: Literal["not_found"]
