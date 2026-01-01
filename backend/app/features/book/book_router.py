@@ -1,12 +1,8 @@
-from fastapi import APIRouter, Depends, status
-from app.domain.user.user_authorization_rules import UserEntity
-from app.features.book.book_dto import (
-        BookCreationInputDTO,
-        BookCreationOutputDTO,
-)
-from app.features.book.book_service import BookService
-from app.shared.security.dependencies import get_current_user
+from fastapi import APIRouter, Depends
 from app.features.book.book_dependencies import get_book_service
+from app.features.book.book_dto import GetBookDTO
+from app.features.book.book_service import BookService
+from app.shared.openapi.schemas import NotFoundErrorResponse
 
 router = APIRouter(
     prefix="/books",
@@ -16,29 +12,50 @@ router = APIRouter(
 
 @router.get(
     path="/",
+    response_model=list[GetBookDTO],
+    status_code=200,
 )
 async def get_all_books(
-):
-    return {"hello": "WIP"}
-
-
-@router.post(
-    path="/",
-    response_model=BookCreationOutputDTO,
-    status_code=status.HTTP_200_OK
-)
-async def create_book(
-    input: BookCreationInputDTO,
-    actor: UserEntity = Depends(get_current_user),
     service: BookService = Depends(get_book_service)
-) -> BookCreationOutputDTO:
+):
+    books = await service.get_all_books()
 
-    await service.create_book(
-        actor=actor,
-        isbn=input.isbn,
-        bookName=input.bookName,
-        bookPages=input.bookPages,
-        description=input.description
+    response = []
+    for book in books:
+        response.append(
+            GetBookDTO(
+                isbn=book.isbn,
+                title=book.title,
+                author=book.author,
+                pages=book.pages,
+                language=book.language,
+                year=book.year,
+                description=book.description
+            )
+        )
+
+    return response
+
+
+@router.get(
+    path="/{isbn}",
+    response_model=GetBookDTO,
+    responses={
+        404: {"model": NotFoundErrorResponse}
+    }
+)
+async def get_book_by_isbn(
+        isbn: str,
+        service: BookService = Depends(get_book_service)
+) -> GetBookDTO:
+    book = await service.get_book_by_isbn(isbn)
+
+    return GetBookDTO(
+        isbn=book.isbn,
+        title=book.title,
+        author=book.author,
+        pages=book.pages,
+        language=book.language,
+        year=book.year,
+        description=book.description
     )
-
-    return BookCreationOutputDTO()

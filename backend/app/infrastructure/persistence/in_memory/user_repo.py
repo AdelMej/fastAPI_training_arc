@@ -2,6 +2,7 @@ from uuid import uuid4
 from uuid import UUID
 from app.domain.user.user_entity import NewUserEntity, UserEntity
 from app.shared.security.password_hasher import PasswordHasher
+from app.shared.rules.role_rules import ALL_ROLES
 
 
 class InMemoryUserRepository:
@@ -16,7 +17,7 @@ class InMemoryUserRepository:
             password_hash=password_hasher.hash("admin123"),
             first_name="admin",
             last_name="user",
-            roles=["USER", "ADMIN"]
+            roles=list(ALL_ROLES)
         )
 
         assert admin.id

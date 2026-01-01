@@ -2,9 +2,11 @@ from uuid import UUID
 from fastapi import APIRouter, Depends
 
 from app.domain.user.user_entity import UserEntity
-from app.features.admin.admin_dependencies import get_admin_user_service
-from app.features.admin.admin_dto import GetUserOutputDTO
-from app.features.admin.admin_user_service import AdminUserService
+from app.features.admin.user.admin_user_dependencies import (
+    get_admin_user_service
+)
+from app.features.admin.user.admin_user_dto import GetUserOutputDTO
+from app.features.admin.user.admin_user_service import AdminUserService
 from app.shared.openapi.schemas import (
         ForbiddenErrorResponse,
         UnauthorizedErrorResponse,
@@ -14,13 +16,13 @@ from app.shared.security.dependencies import get_admin
 
 
 router = APIRouter(
-    prefix="/admin",
+    prefix="/admin/users",
     tags=["admin"]
 )
 
 
 @router.get(
-    path="/users/",
+    path="/",
     response_model=list[GetUserOutputDTO],
     status_code=200,
     responses={
@@ -50,7 +52,7 @@ async def get_all_users(
 
 
 @router.get(
-    path="/users/{user_id}",
+    path="/{user_id}",
     response_model=GetUserOutputDTO,
     status_code=200,
     responses={

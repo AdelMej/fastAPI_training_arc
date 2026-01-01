@@ -1,7 +1,8 @@
 from functools import lru_cache
 
 from fastapi import Depends
-from app.features.admin.admin_user_repository import AdminUserRepository
+from app.features.admin.book.admin_book_repository import AdminBookRepository
+from app.features.admin.user.admin_user_repository import AdminUserRepository
 from app.features.auth.auth_repository import AuthRepository
 from app.features.book.book_repository import BookRepository
 from app.features.user.user_repository import UserRepository
@@ -37,6 +38,12 @@ def get_admin_user_repo(
 
 
 @lru_cache
-def get_book_repo(
+def get_book_repository(
 ) -> BookRepository:
     return InMemoryBookRepository()
+
+
+def get_admin_book_repo(
+        repo: InMemoryBookRepository = Depends(get_book_repository)
+) -> AdminBookRepository:
+    return repo

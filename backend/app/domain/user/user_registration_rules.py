@@ -36,22 +36,23 @@ from app.shared.utils.strings_predicate import (
 
 from zxcvbn import zxcvbn
 
-MIN_PASSWORD_LENGTH = 8
-MAX_PASSWORD_LENGTH = 128
-MIN_ZXCVBN_SCORE = 3
+from app.shared.rules.password_rules import (
+    MIN_PASSWORD_LENGTH,
+    MAX_PASSWORD_LENGTH,
+    MIN_ZXCVBN_SCORE
+)
 
-MIN_USERNAME_LENGTH = 3
-MAX_USERNAME_LENGTH = 32
-
-MIN_EMAIL_LENGTH = 3
-MAX_EMAIL_LENGTH = 254
-MAX_LOCAL_PART = 64
-
-MIN_FIRST_NAME_LENGTH = 1
-MAX_FIRST_NAME_LENGTH = 100
-
-MIN_LAST_NAME_LENGTH = 1
-MAX_LAST_NAME_LENGTH = 100
+from app.shared.rules.user_rules import (
+    MIN_USERNAME_LENGTH,
+    MAX_USERNAME_LENGTH,
+    MIN_EMAIL_LENGTH,
+    MAX_EMAIL_LENGTH,
+    MAX_LOCAL_PART,
+    MIN_FIRST_NAME_LENGTH,
+    MAX_FIRST_NAME_LENGTH,
+    MIN_LAST_NAME_LENGTH,
+    MAX_LAST_NAME_LENGTH
+)
 
 
 def ensure_password_is_strong(password: str):

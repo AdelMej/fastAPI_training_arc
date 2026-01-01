@@ -16,6 +16,7 @@ from app.domain.user.user_registration_rules import (
         ensure_username_is_valid,
         ensure_email_is_valid,
 )
+from app.shared.rules.role_rules import ROLE_USER
 
 
 class AuthService:
@@ -58,7 +59,7 @@ class AuthService:
             password_hash=self.password_hasher.hash(password),
             first_name=first_name,
             last_name=last_name,
-            roles=["USER"]
+            roles=[ROLE_USER]
         )
 
         await self.repo.create(user)

@@ -1,7 +1,7 @@
 from uuid import UUID
 from app.domain.user.user_authorization_rules import ensure_user_is_admin
 from app.domain.user.user_entity import UserEntity
-from app.features.admin.admin_user_repository import AdminUserRepository
+from app.features.admin.user.admin_user_repository import AdminUserRepository
 from app.shared.exceptions.commons import ForbiddenError, NotFoundError
 
 

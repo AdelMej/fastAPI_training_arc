@@ -9,6 +9,7 @@ from app.shared.exceptions.commons import (
         ForbiddenError,
         UnauthorizedError
 )
+from app.shared.rules.role_rules import ROLE_ADMIN
 
 _oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/token")
 
@@ -37,7 +38,7 @@ async def get_admin(
     actor: UserEntity = Depends(get_current_user)
 ) -> UserEntity:
 
-    if "ADMIN" not in actor.roles:
+    if ROLE_ADMIN not in actor.roles:
         raise ForbiddenError()
 
     return actor
