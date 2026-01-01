@@ -36,6 +36,23 @@ from app.features.user.user_exceptions import (
     InvalidPasswordError
 )
 
+from app.shared.rules.password_rules import (
+    MIN_PASSWORD_LENGTH,
+    MAX_PASSWORD_LENGTH
+)
+
+from app.shared.rules.user_rules import (
+    MIN_EMAIL_LENGTH,
+    MAX_EMAIL_LENGTH,
+    MAX_LOCAL_PART,
+    MIN_USERNAME_LENGTH,
+    MAX_USERNAME_LENGTH,
+    MIN_FIRST_NAME_LENGTH,
+    MAX_FIRST_NAME_LENGTH,
+    MIN_LAST_NAME_LENGTH,
+    MAX_LAST_NAME_LENGTH
+)
+
 
 def register_handlers(app: FastAPI) -> None:
 
@@ -70,7 +87,10 @@ def register_handlers(app: FastAPI) -> None:
     ) -> JSONResponse:
         return JSONResponse(
             status_code=400,
-            content={"error": "password must be at least 8 character long"}
+            content={
+                "error": "password must be at least {} character long"
+                .format(MIN_PASSWORD_LENGTH)
+            }
         )
 
     @app.exception_handler(PasswordTooLongError)
@@ -80,7 +100,10 @@ def register_handlers(app: FastAPI) -> None:
     ) -> JSONResponse:
         return JSONResponse(
             status_code=400,
-            content={"error": "password must be less than 128 character"}
+            content={
+                "error": "password must be less than {} character"
+                .format(MAX_PASSWORD_LENGTH)
+            }
         )
 
     @app.exception_handler(PasswordMissingLowercaseError)
@@ -153,7 +176,10 @@ def register_handlers(app: FastAPI) -> None:
     ) -> JSONResponse:
         return JSONResponse(
             status_code=400,
-            content={"error": "email must be at least 3 characters long"}
+            content={
+                "error": "email must be at least {} characters long"
+                .format(MIN_EMAIL_LENGTH)
+            }
         )
 
     @app.exception_handler(EmailIsTooLong)
@@ -163,7 +189,10 @@ def register_handlers(app: FastAPI) -> None:
     ) -> JSONResponse:
         return JSONResponse(
             status_code=400,
-            content={"error": "email must be less than 254 characters long"}
+            content={
+                "error": "email must be less than {} characters long"
+                .format(MAX_EMAIL_LENGTH)
+            }
         )
 
     @app.exception_handler(EmailMissingAtSymbolError)
@@ -204,7 +233,8 @@ def register_handlers(app: FastAPI) -> None:
         return JSONResponse(
             status_code=400,
             content={
-                "error": "email local-part must be less than 64 characters"
+                "error": "email local-part must be less than {} characters"
+                .format(MAX_LOCAL_PART)
             }
         )
 
@@ -229,7 +259,10 @@ def register_handlers(app: FastAPI) -> None:
     ) -> JSONResponse:
         return JSONResponse(
             status_code=400,
-            content={"error": "username must be at least 3 characters long"}
+            content={
+                "error": "username must be at least {} characters long"
+                .format(MIN_USERNAME_LENGTH)
+            }
         )
 
     @app.exception_handler(UsernameTooLongError)
@@ -239,7 +272,10 @@ def register_handlers(app: FastAPI) -> None:
     ) -> JSONResponse:
         return JSONResponse(
             status_code=400,
-            content={"error": "username must be less than 32 characters"}
+            content={
+                "error": "username must be less than {} characters"
+                .format(MAX_USERNAME_LENGTH)
+            }
         )
 
     # ---------------------------
@@ -263,7 +299,10 @@ def register_handlers(app: FastAPI) -> None:
     ) -> JSONResponse:
         return JSONResponse(
             status_code=400,
-            content={"error": "first name must be at least 1 character long"}
+            content={
+                "error": "first name must be at least {} character long"
+                .format(MIN_FIRST_NAME_LENGTH)
+            }
         )
 
     @app.exception_handler(FirstNameTooLongError)
@@ -273,7 +312,10 @@ def register_handlers(app: FastAPI) -> None:
     ) -> JSONResponse:
         return JSONResponse(
             status_code=400,
-            content={"error": "first name must be less than 100 characters"}
+            content={
+                "error": "first name must be less than {} characters"
+                .format(MAX_FIRST_NAME_LENGTH)
+            }
         )
 
     # --------------------------
@@ -297,7 +339,10 @@ def register_handlers(app: FastAPI) -> None:
     ) -> JSONResponse:
         return JSONResponse(
             status_code=400,
-            content={"error": "last name must be at least 1 character long"}
+            content={
+                "error": "last name must be at least {} character long"
+                .format(MIN_LAST_NAME_LENGTH)
+            }
         )
 
     @app.exception_handler(LastNameTooLongError)
@@ -307,7 +352,10 @@ def register_handlers(app: FastAPI) -> None:
     ) -> JSONResponse:
         return JSONResponse(
             status_code=400,
-            content={"error": "last name must be at least 100 characters long"}
+            content={
+                "error": "last name must be at least {} characters long"
+                .format(MAX_LAST_NAME_LENGTH)
+            }
         )
 
     # -----------------------
